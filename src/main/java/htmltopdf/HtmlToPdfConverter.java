@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.xhtmlrenderer.layout.SharedContext;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.FileOutputStream;
@@ -29,17 +28,6 @@ public class HtmlToPdfConverter {
     }
 
     /**
-     * Configures the ITextRenderer object with default settings.
-     *
-     * @param renderer The ITextRenderer object to configure.
-     */
-    public static void configureRenderer(ITextRenderer renderer) {
-        SharedContext context = renderer.getSharedContext();
-        context.setPrint(true);
-        context.setInteractive(false);
-    }
-
-    /**
      * Gets the base URL for the current directory.
      *
      * @return The base URL.
@@ -59,7 +47,6 @@ public class HtmlToPdfConverter {
     public static void renderPdf(Document document, String pdfFilePath) throws IOException {
         try (OutputStream os = new FileOutputStream(pdfFilePath)) {
             ITextRenderer renderer = new ITextRenderer();
-            configureRenderer(renderer);
             String baseUrl = getBaseUrl();
             renderer.setDocumentFromString(document.html(), baseUrl);
             renderer.layout();
